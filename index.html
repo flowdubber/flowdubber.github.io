@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> FlowDubber Demo Page </title>
+		<link type="text/css" href="./css/basic.css" rel="stylesheet">
+		<link type="text/css" href="./css/index.css" rel="stylesheet">
+		<link type="text/css" href="./css/bootstrap.min.css" rel="stylesheet">
+		<script type='text/javascript' src="./js/jquery-3.3.1.min.js"></script>
+		<script type='text/javascript' src="./js/index.js"></script>
+	</head>
+	<body>
+		<div class="main">
+			<div class="title">
+				<img class="top-img"  src="img\background.png" />
+				<span>FlowDubber: Movie Dubbing with Voice Enhanced Flow Matching and LLM-based Semantic-aware Learning</span>
+			</div>
+			<div class="content">
+				<div class="section author">
+				</div>
+				<div class="section">
+					<div class="section-title">ABSTRACT</div>
+					<div class="section-content abstract">
+						Movie Dubbing aims to convert scripts into speeches that align with the given movie clip in both temporal and emotional aspects while preserving the vocal timbre of one brief reference audio. Existing methods focus primarily on reducing the word error rate while ignoring the importance of lip-sync and acoustic quality. To address these issues, we propose a large language model (LLM) based flow matching architecture for dubbing, named FlowDubber, which guarantees high-quality audio-visual sync and pronunciation by incorporating a large speech language model and dual contrastive aligning while achieving better acoustic quality via the proposed voice-enhanced flow matching than previous works. First, we introduce Qwen2.5 as the backbone of LLM to learn the in-context sequence from movie scripts and reference audio. Then, the proposed semantic-aware learning focuses on capturing LLM semantic knowledge at the phoneme level. Next, dual contrastive aligning (DCA) ensures mutual alignment with lip movement, reducing ambiguities where similar phonemes might be confused. Finally, the proposed Flow-based Voice Enhancing (FVE) improves acoustic quality in two aspects, which introduces an LLM-based acoustics flow matching guidance to strengthen clarity and uses affine style prior to enhance identity when recovering noise into mel-spectrograms via gradient vector field prediction. Extensive experiments demonstrate that our method outperforms several state-of-the-art methods on two primary benchmarks. The demos are available at here.
+					</div>
+				</div>
+				
+				<div class="section">
+					<div class="section-title">MODEL ARCHITECTURE</div>
+					<div class="section-content model">
+						<img src="img\FlowDubber_method.jpg" alt="" class="model-img">
+						
+						<p style="padding-top: 1rem; color: #a1a1a1; font-size: 1rem; text-align: center;">Overall framework of FlowDubber. It consists of LLM-based Semantic-aware Learning (LLM-SL), lip-phoneme Dual
+							Contrastive Aligning (DCA), and Flow-based Voice Enhancing (FVE). Specifically, the LLM-SL includes Qwen2.5-0.5B speech
+							language model and semantic-aware phoneme learning to keep pronunciation while aligning with DCA. The FVE consists of
+							style flow matching prediction and LLM-based acoustics flow matching guidance to improve the acoustics quality.</p>
+					</div>
+				</div>
+				
+				<div class="section">
+					<div class="section-title">EXPERIMENTS</div>
+					<div class="section-content experiments">
+						<!-- We develop four neural TTS systems for a  -->
+						<strong>Current Dubbing Baselines:</strong>
+						</br> 1) <b>V2C-Net (CVPR'22)</b> is a Vanilla dubbing model used for V2C tasks, which aggregates the desired speaker and visual embedding to Mel-Decoder.
+						</br> 2) <b>HPMDubbing (CVPR'23)</b> is a Hierarchical dubbing to bridge fine-grained video representations and speech attributes from three levels. 
+						</br> 3) <b>StyleDubber (ACL'24)</b> is a SOTA Dubbing model using multi-scale style learning at the multi-modal phoneme level and acoustics utterance level.
+						</br> 4) <b>Speaker2Dubber (ACM MM'24)</b> is a SOTA pre-trained dubbing method with two-stage strategy to learn pronunciation from an additional TTS corpus. 
+						</br> 5) <b>ProDubber (CVPR'25)</b> is a SOTA Dubbing model which first learn acoustic modeling ability from text-speech corpus then adapt the prosody to given videos.
+
+					</div>
+					<div class="section-content ">
+						<hr />
+						<div class="subsection-exp-2">
+							
+							<div>
+								
+							</div>
+							
+
+							<div class="module-content" style="margin-bottom: 30px;">
+
+								<!-- Chem Setting1 Sample1 Full -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting1 Sample1 (Full Video)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> So the reaction quotient is actually just a reaction product, the product of the two ions. .
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\Chem_Setting1\Sample_1\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+
+								<!-- Chem setting1 sample1 Lip -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting1 Sample1 (Lip Show)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> So the reaction quotient is actually just a reaction product, the product of the two ions. 
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\Chem_Setting1\Sample_1_Lipshow\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1_Lipshow\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1_Lipshow\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1_Lipshow\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1_Lipshow\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1_Lipshow\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_1_Lipshow\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+
+								<!-- Chem setting1 sample2 Full -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting1 Sample2 (Full Video)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> In fact, if we write the equilibrium expression for this, we'll find the equilibrium constant is less than one.
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\Chem_Setting1\Sample_2\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+
+								<!-- Chem setting1 sample2 Lip -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting1 Sample2 (Lip Show)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> In fact, if we write the equilibrium expression for this, we'll find the equilibrium constant is less than one.
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\Chem_Setting1\Sample_2_Lipshow\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2_Lipshow\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2_Lipshow\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2_Lipshow\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2_Lipshow\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2_Lipshow\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting1\Sample_2_Lipshow\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+
+								<!-- Grid Setting1 Sample1 Full -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >GRID Setting1 Sample1 (Full Video)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> Lay blue at q four now
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\GRID_Setting1\Sample_1\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_1\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_1\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_1\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_1\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_1\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_1\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+
+								
+
+								<!-- GRID setting1 sample2 Full -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >GRID Setting1 Sample2 (Full Video)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> set red by s three please
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\GRID_Setting1\Sample_2\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_2\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_2\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_2\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_2\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_2\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting1\Sample_2\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+								
+
+								<!-- Chem Setting2 Sample1 Full -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting2 Sample1 (Full Video)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> So when you mix these two, the reaction favors the products and forms a lot of ions.
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\Chem_Setting2\Sample_1\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+
+								<!-- Chem setting2 sample1 Lip -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting2 Sample1 (Lip Show)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> So when you mix these two, the reaction favors the products and forms a lot of ions.
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\Chem_Setting2\Sample_1_Lipshow\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1_Lipshow\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1_Lipshow\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1_Lipshow\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1_Lipshow\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1_Lipshow\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_1_Lipshow\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+
+								<!-- Chem setting2 sample2 Full -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting2 Sample2 (Full Video)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> So here's a simple chemical reaction, A going to B.
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\Chem_Setting2\Sample_2\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+
+								<!-- Chem setting2 sample2 Lip -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting2 Sample2 (Lip Show)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> So here's a simple chemical reaction, A going to B.
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\Chem_Setting2\Sample_2_Lipshow\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2_Lipshow\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2_Lipshow\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2_Lipshow\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2_Lipshow\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2_Lipshow\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\Chem_Setting2\Sample_2_Lipshow\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+
+
+								<!-- Grid Setting2 Sample1 Full -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >GRID Setting2 Sample1 (Full Video)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> Bin green at d nine soon
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\GRID_Setting2\Sample_1\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_1\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_1\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_1\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_1\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_1\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_1\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+
+								
+
+								<!-- GRID setting2 sample2 Full -->
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+								
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   
+										</colgroup>
+										<tr>
+											<td colspan="7" style="text-align: center;">
+												<span style="font-weight: bold; font-size: 1.2em;" >GRID Setting2 Sample2 (Full Video)</span> 
+								
+											</td>
+										</tr>	
+
+									<tbody>
+								
+
+									</tbody>
+									<tbody>
+										<tr>
+											<tr>
+												<td colspan="7" style="text-align: left;">
+													
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> Place white sp with b four soon
+													
+												</td>										
+											</tr>
+
+											</tr>
+											<th colspan="1" style="text-align: center"><strong>Ground-Truth</strong></th>
+											<th colspan="1" style="text-align: center"><strong>V2C-Net</strong></th>
+											<th colspan="1" style="text-align: center"><strong>HPMDubbing</strong></th>
+											<th colspan="1" style="text-align: center"><strong>StyleDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>Speaker2Dubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong>ProDubber</strong></th>
+											<th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">FlowDubber(Ours)</strong></th>
+											</tr>
+									
+											<td style="align: center; vertical-align: middle;" ><video src="Demo_ACMMM25\GRID_Setting2\Sample_2\GT.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_2\V2C-Net.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_2\HPMDubbing.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_2\StyleDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_2\Speaker2Dubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_2\ProDubber.mp4" controls="" preload="" width="180"></video></td>
+											<td style="text-align: center"><video src="Demo_ACMMM25\GRID_Setting2\Sample_2\Ours.mp4" controls="" preload="" width="180"></video></td>
+
+										</tr>
+									</tbody>
+								
+								</table>
+
+
+								<div class="section">
+									<div class="section-title"> Voice-Enhanced Flow Matching using different scale a </div>
+					
+									<!-- Flow wav 1 -->
+									<table border="1" style="width: 75%; text-align: right; margin: 0 auto;"> 
+										<td colspan="7" style="text-align: left;">
+													
+											<span style="color:rgb(146, 208, 80);">Text Content:</span> Now we add and subtract because we're taking linear combinations, but we can't lose any orbitals in the process.
+											
+										</td>
+										<tr>
+											<th>Chem #1</th>
+											<td>
+												<table style="width: 100%; margin: 0 auto;">
+													<tr>
+														<td> a = 0.0</td>
+														<td>
+															<audio controls style="width: 450px;">
+																<source src="Demo_ACMMM25\Flow_Scale\Sample1\0.0.wav" type="audio/wav">
+															</audio>
+														</td>
+													</tr>
+													<tr>
+														<td>a = 0.4</td>
+														<td>
+															<audio controls style="width: 450px;">
+																<source src="Demo_ACMMM25\Flow_Scale\Sample1\0.4.wav" type="audio/wav">
+															</audio>
+														</td>
+													</tr>
+													<tr>
+														<td>a = 0.8</td>
+														<td>
+															<audio controls style="width: 450px;">
+																<source src="Demo_ACMMM25\Flow_Scale\Sample1\0.8.wav" type="audio/wav">
+															</audio>
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</table>
+					
+									<!-- Flow wav 1 -->
+									<table border="1" style="width: 75%; text-align: right; margin: 0 auto;"> 
+										<td colspan="7" style="text-align: left;">
+													
+											<span style="color:rgb(146, 208, 80);">Text Content:</span> We're looking at the sublimation of iodine solid to form iodine gas.
+											
+										</td>
+										<tr>
+											<th>Chem #2</th>
+											<td>
+												<table style="width: 100%; margin: 0 auto;">
+													<tr>
+														<td> a = 0.0</td>
+														<td>
+															<audio controls style="width: 450px;">
+																<source src="Demo_ACMMM25\Flow_Scale\Sample2\0.0.wav" type="audio/wav">
+															</audio>
+														</td>
+													</tr>
+													<tr>
+														<td>a = 0.4</td>
+														<td>
+															<audio controls style="width: 450px;">
+																<source src="Demo_ACMMM25\Flow_Scale\Sample2\0.4.wav" type="audio/wav">
+															</audio>
+														</td>
+													</tr>
+													<tr>
+														<td>a = 0.8</td>
+														<td>
+															<audio controls style="width: 450px;">
+																<source src="Demo_ACMMM25\Flow_Scale\Sample2\0.8.wav" type="audio/wav">
+															</audio>
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</table>
+								</div>
+
+								
+								
+
+
+			</div>
+				<hr />
+			</div>
+				<!-- </div> -->
+			<!-- </div> -->
+		</div>
+		
+		
+	</body>
+</html>
