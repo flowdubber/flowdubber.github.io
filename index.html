@@ -13,7 +13,7 @@
 		<div class="main">
 			<div class="title">
 				<img class="top-img"  src="img\background.png" />
-				<span>FlowDubber: Movie Dubbing with Voice Enhanced Flow Matching and LLM-based Semantic-aware Learning</span>
+				<span>FlowDubber: Movie Dubbing with LLM-based Semantic-aware Learning and Flow Matching based Voice Enhancing</span>
 			</div>
 			<div class="content">
 				<div class="section author">
@@ -25,7 +25,7 @@
 					</div>
 				</div>
 				
-				<div class="section">
+				<!-- <div class="section">
 					<div class="section-title">MODEL ARCHITECTURE</div>
 					<div class="section-content model">
 						<img src="img\FlowDubber_method.jpg" alt="" class="model-img">
@@ -35,13 +35,25 @@
 							language model and semantic-aware phoneme learning to keep pronunciation while aligning with DCA. The FVE consists of
 							style flow matching prediction and LLM-based acoustics flow matching guidance to improve the acoustics quality.</p>
 					</div>
-				</div>
+				</div> -->
+
+                <div class="section">
+                    <div class="section-title">MODEL ARCHITECTURE</div>
+                    <div class="section-content model" style="text-align: center;">
+                        <img src="img\FlowDubber_method.jpg" alt="" class="model-img" style="width: 80%; height: auto;">
+                        
+						<p style="padding-top: 1rem; color: #a1a1a1; font-size: 1rem; text-align: center;">Overall framework of FlowDubber. It consists of LLM-based Semantic-aware Learning (LLM-SL), lip-phoneme Dual
+							Contrastive Aligning (DCA), and Flow-based Voice Enhancing (FVE). Specifically, the LLM-SL includes Qwen2.5-0.5B speech
+							language model and semantic-aware phoneme learning to keep pronunciation while aligning with DCA. The FVE consists of
+							style flow matching prediction and LLM-based acoustics flow matching guidance to improve the acoustics quality.</p>
+					</div>
+                </div>
 				
 				<div class="section">
 					<div class="section-title">EXPERIMENTS</div>
 					<div class="section-content experiments">
 						<!-- We develop four neural TTS systems for a  -->
-						<strong>Current Dubbing Baselines:</strong>
+						<strong>Current SOTA Dubbing Baselines (All experimental results use the official code or providing checkpoint):</strong>
 						</br> 1) <b>V2C-Net (CVPR'22)</b> is a Vanilla dubbing model used for V2C tasks, which aggregates the desired speaker and visual embedding to Mel-Decoder.
 						</br> 2) <b>HPMDubbing (CVPR'23)</b> is a Hierarchical dubbing to bridge fine-grained video representations and speech attributes from three levels. 
 						</br> 3) <b>StyleDubber (ACL'24)</b> is a SOTA Dubbing model using multi-scale style learning at the multi-modal phoneme level and acoustics utterance level.
@@ -90,7 +102,7 @@
 											<tr>
 												<td colspan="7" style="text-align: left;">
 													
-													<span style="color:rgb(146, 208, 80);">Text Content:</span> So the reaction quotient is actually just a reaction product, the product of the two ions. .
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> So the reaction quotient is actually just a reaction product, the product of the two ions. 
 													
 												</td>										
 											</tr>
@@ -134,7 +146,7 @@
 										</colgroup>
 										<tr>
 											<td colspan="7" style="text-align: center;">
-												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting1 Sample1 (Lip Motion Details)</span> 
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting1 Sample1 (See Lip-motion Details)</span> 
 								
 											</td>
 										</tr>	
@@ -206,7 +218,7 @@
 											<tr>
 												<td colspan="7" style="text-align: left;">
 													
-													<span style="color:rgb(146, 208, 80);">Text Content:</span> In fact, if we write the equilibrium expression for this, we'll find the equilibrium constant is less than one.
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> In fact, if we write the equilibrium expression for this, we'll find the equilibrium constant is less than <span style="color:rgb(219, 17, 10);">one</span>.
 													
 												</td>										
 											</tr>
@@ -250,7 +262,7 @@
 										</colgroup>
 										<tr>
 											<td colspan="7" style="text-align: center;">
-												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting1 Sample2 (Lip Motion Details)</span> 
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting1 Sample2 (See Lip-motion Details)</span> 
 								
 											</td>
 										</tr>	
@@ -264,7 +276,7 @@
 											<tr>
 												<td colspan="7" style="text-align: left;">
 													
-													<span style="color:rgb(146, 208, 80);">Text Content:</span> In fact, if we write the equilibrium expression for this, we'll find the equilibrium constant is less than one.
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> In fact, if we write the equilibrium expression for this, we'll find the equilibrium constant is less than <span style="color:rgb(219, 17, 10);">one</span>.
 													
 												</td>										
 											</tr>
@@ -322,7 +334,7 @@
 											<tr>
 												<td colspan="7" style="text-align: left;">
 													
-													<span style="color:rgb(146, 208, 80);">Text Content:</span> Lay blue at q four now
+													<span style="color:rgb(146, 208, 80);">Text Content:</span>  <span style="color:rgb(219, 17, 10);">Lay</span> blue at q four now
 													
 												</td>										
 											</tr>
@@ -382,7 +394,7 @@
 											<tr>
 												<td colspan="7" style="text-align: left;">
 													
-													<span style="color:rgb(146, 208, 80);">Text Content:</span> set red by s three please
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> set red by s three <span style="color:rgb(219, 17, 10);">please</span>
 													
 												</td>										
 											</tr>
@@ -441,7 +453,7 @@
 											<tr>
 												<td colspan="7" style="text-align: left;">
 													
-													<span style="color:rgb(146, 208, 80);">Text Content:</span> So when you mix these two, the reaction favors the products and forms a lot of ions.
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> So when you mix these two, the reaction favors the products and forms a lot of <span style="color:rgb(219, 17, 10);">ions</span>.
 													
 												</td>										
 											</tr>
@@ -485,7 +497,7 @@
 										</colgroup>
 										<tr>
 											<td colspan="7" style="text-align: center;">
-												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting2 Sample1 (Lip Motion Details)</span> 
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting2 Sample1 (See Lip-motion Details)</span> 
 								
 											</td>
 										</tr>	
@@ -499,7 +511,7 @@
 											<tr>
 												<td colspan="7" style="text-align: left;">
 													
-													<span style="color:rgb(146, 208, 80);">Text Content:</span> So when you mix these two, the reaction favors the products and forms a lot of ions.
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> So when you mix these two, the reaction favors the products and forms a lot of <span style="color:rgb(219, 17, 10);">ions</span>.
 													
 												</td>										
 											</tr>
@@ -557,7 +569,7 @@
 											<tr>
 												<td colspan="7" style="text-align: left;">
 													
-													<span style="color:rgb(146, 208, 80);">Text Content:</span> So here's a simple chemical reaction, A going to B.
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> So here's a simple chemical reaction, <span style="color:rgb(219, 17, 10);">A</span> going to B.
 													
 												</td>										
 											</tr>
@@ -601,7 +613,7 @@
 										</colgroup>
 										<tr>
 											<td colspan="7" style="text-align: center;">
-												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting2 Sample2 (Lip Motion Details)</span> 
+												<span style="font-weight: bold; font-size: 1.2em;" >Chem Setting2 Sample2 (See Lip-motion Details)</span> 
 								
 											</td>
 										</tr>	
@@ -615,7 +627,7 @@
 											<tr>
 												<td colspan="7" style="text-align: left;">
 													
-													<span style="color:rgb(146, 208, 80);">Text Content:</span> So here's a simple chemical reaction, A going to B.
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> So here's a simple chemical reaction, <span style="color:rgb(219, 17, 10);">A</span> going to B.
 													
 												</td>										
 											</tr>
@@ -674,7 +686,7 @@
 											<tr>
 												<td colspan="7" style="text-align: left;">
 													
-													<span style="color:rgb(146, 208, 80);">Text Content:</span> Bin green at d nine soon
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> <span style="color:rgb(219, 17, 10);">Bin</span> green at d nine <span style="color:rgb(219, 17, 10);">soon</span> 
 													
 												</td>										
 											</tr>
@@ -734,7 +746,7 @@
 											<tr>
 												<td colspan="7" style="text-align: left;">
 													
-													<span style="color:rgb(146, 208, 80);">Text Content:</span> Place white sp with b four soon
+													<span style="color:rgb(146, 208, 80);">Text Content:</span> Place white with b four soon
 													
 												</td>										
 											</tr>
@@ -770,7 +782,7 @@
 									<table border="1" style="width: 75%; text-align: right; margin: 0 auto;"> 
 										<td colspan="7" style="text-align: left;">
 													
-											<span style="color:rgb(146, 208, 80);">Text Content:</span> Now we add and subtract because we're taking linear combinations, but we can't lose any orbitals in the process.
+											<span style="color:rgb(146, 208, 80);">Text Content:</span> Well, we have a new unit here, watts, and that's a unit of power-- how much energy is transferred per second, how many 
 											
 										</td>
 										<tr>
@@ -782,14 +794,6 @@
 														<td>
 															<audio controls style="width: 450px;">
 																<source src="Demo_ACMMM25\Flow_Scale\Sample1\0.0.wav" type="audio/wav">
-															</audio>
-														</td>
-													</tr>
-													<tr>
-														<td>a = 0.4</td>
-														<td>
-															<audio controls style="width: 450px;">
-																<source src="Demo_ACMMM25\Flow_Scale\Sample1\0.4.wav" type="audio/wav">
 															</audio>
 														</td>
 													</tr>
@@ -822,14 +826,6 @@
 														<td>
 															<audio controls style="width: 450px;">
 																<source src="Demo_ACMMM25\Flow_Scale\Sample2\0.0.wav" type="audio/wav">
-															</audio>
-														</td>
-													</tr>
-													<tr>
-														<td>a = 0.4</td>
-														<td>
-															<audio controls style="width: 450px;">
-																<source src="Demo_ACMMM25\Flow_Scale\Sample2\0.4.wav" type="audio/wav">
 															</audio>
 														</td>
 													</tr>
